@@ -12,8 +12,10 @@ func check(e error) {
 }
 
 func main() {
-	tasks := importTasks("tasks.json")
-	export(tasks)
+	cnf := readConfig()
+	tasks := importTasks(cnf.FilePath)
+	list(tasks)
+	export(cnf.FilePath, tasks)
 }
 
 func addTask(tasks []*Task, desc string) []*Task {

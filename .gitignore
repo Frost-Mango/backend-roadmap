@@ -1,3 +1,4 @@
 *.json
 *.exe
+*.task
 task-tracker-cli/tasks.json
