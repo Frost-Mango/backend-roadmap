@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"slices"
-	"github.com/Frost-Mango/backend-roadmap/tree/main/task-tracker-cli/cmd"
 )
 
 func check(e error) {
