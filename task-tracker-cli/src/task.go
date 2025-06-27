@@ -1,7 +1,9 @@
-package task
+package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -43,4 +45,10 @@ func printTask(t *Task) {
 	fmt.Println(t.Status)
 	fmt.Println("created at:", t.CreatedAt)
 	fmt.Println("updated at:", t.UpdatedAt)
+}
+
+func export(tasks []*Task) {
+	res, err := json.Marshal(tasks)
+	check(err)
+	err = os.WriteFile("./tasks.json", res, 0644)
 }

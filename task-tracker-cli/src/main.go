@@ -1,10 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 	"slices"
+	"github.com/Frost-Mango/backend-roadmap/tree/main/task-tracker-cli/cmd"
 )
 
 func check(e error) {
@@ -14,49 +13,8 @@ func check(e error) {
 }
 
 func main() {
-	tasks := importTasks()
+	tasks := importTasks("../tasks.json")
 	export(tasks)
-}
-
-func importTasks() []*Task {
-	var tasks []*Task
-	f, err := os.Open("./tasks.json")
-	if err == nil {
-		b := make([]byte, 1)
-		in_obj := false
-		co := ""
-		for {
-			_, err = f.Read(b)
-			if err != nil {
-				return tasks
-			}
-			s := string(b)
-			switch s {
-			case "n":
-				if !in_obj {
-					return tasks
-				} else {
-					co += s
-				}
-			case "{":
-				in_obj = true
-				co += s
-			case "}":
-				in_obj = false
-				co += s
-				var t Task
-				err = json.Unmarshal([]byte(co), &t)
-				tasks = append(tasks, &t)
-				co = ""
-			default:
-				if in_obj {
-					co += s
-				}
-			}
-		}
-	}
-	os.Create("./tasks.json")
-	return tasks
 }
 
 func addTask(tasks []*Task, desc string) []*Task {
@@ -135,10 +93,4 @@ func listFiltered(tasks []*Task, filter string) error {
 		return fmt.Errorf("Invalid filter") //TODO: write proper errors
 	}
 	return nil
-}
-
-func export(tasks []*Task) {
-	res, err := json.Marshal(tasks)
-	check(err)
-	err = os.WriteFile("./tasks.json", res, 0644)
 }
