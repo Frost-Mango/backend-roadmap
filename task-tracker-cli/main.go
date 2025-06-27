@@ -12,7 +12,7 @@ func check(e error) {
 }
 
 func main() {
-	tasks := importTasks("../tasks.json")
+	tasks := importTasks("tasks.json")
 	export(tasks)
 }
 
